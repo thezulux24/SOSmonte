@@ -4,6 +4,7 @@ import pandas as pd
 from io import StringIO
 from twilio.rest import Client
 from geopy.geocoders import Nominatim
+from geopy.exc import GeocoderServiceError
 
 # Cargar la clave de cifrado desde .streamlit/secrets.toml
 key = st.secrets["KEY"]
@@ -36,8 +37,14 @@ def send_message(body, to):
 # Obtener la ubicación del dispositivo
 def get_location():
     geolocator = Nominatim(user_agent="geoapiExercises")
-    location = geolocator.geocode("Your Address")
-    return f"https://www.google.com/maps?q={location.latitude},{location.longitude}"
+    try:
+        location = geolocator.geocode("Your Address")
+        if location:
+            return f"https://www.google.com/maps?q={location.latitude},{location.longitude}"
+        else:
+            return "Ubicación no encontrada."
+    except GeocoderServiceError as e:
+        return f"Error al obtener la ubicación: {e}"
 
 # La lógica de la aplicación sigue aquí...
 st.title('AVISO EMERGENCIA GRUPO MONTE')
