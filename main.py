@@ -3,8 +3,7 @@ from cryptography.fernet import Fernet
 import pandas as pd
 from io import StringIO
 from twilio.rest import Client
-from geopy.geocoders import Nominatim
-from geopy.exc import GeocoderServiceError
+import geocoder
 
 # Cargar la clave de cifrado desde .streamlit/secrets.toml
 key = st.secrets["KEY"]
@@ -36,14 +35,13 @@ def send_message(body, to):
 
 # Obtener la ubicación del dispositivo
 def get_location():
-    geolocator = Nominatim(user_agent="geoapiExercises")
     try:
-        location = geolocator.geocode("Your Address")
-        if location:
-            return f"https://www.google.com/maps?q={location.latitude},{location.longitude}"
+        g = geocoder.ip('me')
+        if g.ok:
+            return f"https://www.google.com/maps?q={g.latlng[0]},{g.latlng[1]}"
         else:
             return "Ubicación no encontrada."
-    except GeocoderServiceError as e:
+    except Exception as e:
         return f"Error al obtener la ubicación: {e}"
 
 # La lógica de la aplicación sigue aquí...
