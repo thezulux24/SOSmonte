@@ -36,7 +36,7 @@ def send_message(body, to):
 # Obtener la ubicación del dispositivo
 def get_location():
     try:
-        g = geocoder.ip('me')
+        g = geocoder.osm('me', method='reverse')
         if g.ok:
             return f"https://www.google.com/maps?q={g.latlng[0]},{g.latlng[1]}"
         else:
