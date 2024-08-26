@@ -1,17 +1,22 @@
-# main.py
 from flask import Flask, request, render_template_string, jsonify, send_from_directory, redirect, url_for
 from cryptography.fernet import Fernet
 import pandas as pd
 from io import StringIO
 from twilio.rest import Client
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
 app = Flask(__name__)
 
 # Claves y tokens
-key = "WAKAxyIq2BFNDh34gdbwga-z9amcKs1A1qwtZGMMumo="
-account_sid = 'AC3f09fb932286da9db5346f7774a69433'
-auth_token = 'ed691ebe695d12a2bebe52326870b21c'
-from_ = "whatsapp:+14155238886"
-to = "whatsapp:+573237607583"
+key = os.getenv('KEY')
+account_sid = os.getenv('ACCOUNT_SID')
+auth_token = os.getenv('AUTH_TOKEN')
+from_ = os.getenv('FROM')
+to = os.getenv('TO')
 
 # Función para desencriptar el archivo
 def decrypt_file(file_name, key):
