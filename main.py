@@ -4,15 +4,14 @@ from cryptography.fernet import Fernet
 import pandas as pd
 from io import StringIO
 from twilio.rest import Client
-import config
 app = Flask(__name__)
 
 # Claves y tokens
-key = config.key
-account_sid = config.account_sid
-auth_token = config.auth_token
-from_ = config.from_
-to = config.to
+key = "WAKAxyIq2BFNDh34gdbwga-z9amcKs1A1qwtZGMMumo="
+account_sid = 'AC3f09fb932286da9db5346f7774a69433'
+auth_token = 'ed691ebe695d12a2bebe52326870b21c'
+from_ = "whatsapp:+14155238886"
+to = "whatsapp:+573237607583"
 
 # Función para desencriptar el archivo
 def decrypt_file(file_name, key):
